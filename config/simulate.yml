@@ -1,0 +1,27 @@
+emq:
+  devices:
+    -
+      type: device
+      info:
+        - id: "010201000001"
+          slaves: []
+          num: 1
+          slaveNum: 0
+    -
+      type: gateway
+      info:
+            -
+              id: "010401000001"
+              slaves: ["010301000001","010301000002"]
+              num: 0
+              slaveNum: 4
+            -
+              id: "010401000002"
+              slaves: ["010501000001","010501000002"]
+              num: 6
+              slaveNum: 4
+            -
+              id: "010401000006"
+              slaves: ["010601000001","010601000002"]
+              num: 6
+              slaveNum: 1

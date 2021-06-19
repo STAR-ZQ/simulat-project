@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="simulate_application:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="028f885a-d38b-42ea-b6b9-ddbae5cc6223" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="userSettingsFile" value="D:\Maven\springBootMaven\conf\settings.xml" />
+        <option name="workOffline" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1u3WIgmOJLbTugq4NiRSuBkvgrB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\IdeaProjects\simulate_application\src\main\resources" />
+      <recent name="C:\Users\86182\IdeaProjects\simulate_application\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\IdeaProjects" />
+      <recent name="C:\Users\86182\IdeaProjects\simulate_application\config" />
+      <recent name="C:\Users\86182\IdeaProjects\simulate_application\src" />
+      <recent name="C:\Users\86182\IdeaProjects\simulate_application\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EmqApplication">
+    <configuration name="TestConfigController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cn.zh.simulate.emq.controller.TestConfigController" />
+      <module name="simulate_application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.zh.simulate.emq.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmqApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="simulate_application" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.zh.simulate.emq.EmqApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestConfigController" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="028f885a-d38b-42ea-b6b9-ddbae5cc6223" name="Default Changelist" comment="" />
+      <created>1623894674297</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1623894674297</updated>
+      <workItem from="1623894677443" duration="13306000" />
+      <workItem from="1623921258683" duration="7228000" />
+      <workItem from="1623979643962" duration="23685000" />
+      <workItem from="1624067712512" duration="13329000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1245" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1624085889591">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1245" y="204" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1624085889591" />
+    <state x="1110" y="352" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1623986919032">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1110" y="352" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1623986919032" />
+    <state x="1170" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1623901624133">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1170" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1623901624133" />
+    <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog" timestamp="1624093066860">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624093066860" />
+    <state width="448" height="466" key="DebuggerActiveHint" timestamp="1624088034022">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="448" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1624088034022" />
+    <state x="937" y="304" key="FileChooserDialogImpl" timestamp="1624067690810">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="937" y="304" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1624067690810" />
+    <state width="1921" height="229" key="GridCell.Tab.0.bottom" timestamp="1624093698075">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624093698075" />
+    <state width="1921" height="229" key="GridCell.Tab.0.center" timestamp="1624093698074">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624093698074" />
+    <state width="1921" height="229" key="GridCell.Tab.0.left" timestamp="1624093698074">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624093698074" />
+    <state width="1921" height="229" key="GridCell.Tab.0.right" timestamp="1624093698075">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624093698075" />
+    <state width="1921" height="229" key="GridCell.Tab.1.bottom" timestamp="1624093696076">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624093696076" />
+    <state width="1921" height="229" key="GridCell.Tab.1.center" timestamp="1624093696076">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624093696076" />
+    <state width="1921" height="229" key="GridCell.Tab.1.left" timestamp="1624093696076">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624093696076" />
+    <state width="1921" height="229" key="GridCell.Tab.1.right" timestamp="1624093696076">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624093696076" />
+    <state width="1921" height="229" key="GridCell.Tab.2.bottom" timestamp="1624093679679">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624093679679" />
+    <state width="1921" height="229" key="GridCell.Tab.2.center" timestamp="1624093679679">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624093679679" />
+    <state width="1921" height="229" key="GridCell.Tab.2.left" timestamp="1624093679679">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624093679679" />
+    <state width="1921" height="229" key="GridCell.Tab.2.right" timestamp="1624093679679">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1921" height="229" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624093679679" />
+    <state x="229" y="44" key="SettingsEditor" timestamp="1623986951874">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="229" y="44" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1623986951874" />
+    <state width="488" height="528" key="XDebugger.FullValuePopup" timestamp="1624006614383">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="488" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1624006614383" />
+    <state x="1239" y="301" key="chooseDestDirectoryDialog" timestamp="1623895220966">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1239" y="301" key="chooseDestDirectoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1623895220966" />
+    <state x="1120" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1623980036334">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1120" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1623980036334" />
+    <state x="334" y="221" key="new project wizard" timestamp="1623921122194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="334" y="221" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1623921122194" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1623921471227">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1623921471227" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1623901122082">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1623901122082" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java</url>
+          <line>115</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="emqConfig" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
