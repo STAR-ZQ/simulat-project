@@ -1,6 +1,6 @@
 mqtt:
-  username: emq
-  password: public
+  username: zq_test
+  password: 123456
   serverURL: tcp://192.168.101.200:1883
   isReconnect: true
   keepAliveInterval: 10

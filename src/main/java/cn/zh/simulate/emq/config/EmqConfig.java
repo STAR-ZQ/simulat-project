@@ -299,42 +299,57 @@ public class EmqConfig {
 
     /**
      * 容忍度比较判断
+     *
      * @param newData 新生成的随机数据
      * @param preData 展示数据
-     * @param type 设备类型
-     * @param lineId 线路id
+     * @param type    设备类型
+     * @param lineId  线路id
      */
     public void judgeMethod(DeviceInfo newData, DeviceInfo preData, String type, int lineId) {
         List<String> list = Lists.newArrayList();
         switch (type) {
             case "device":
                 list.add(newData.getFrequency()[lineId].subtract(preData.getFrequency()[lineId]).abs().compareTo(BigDecimal.valueOf(0.05)) == 1 ? "frequency" : null);
-                list.add(Math.abs(newData.getVoltage()[lineId]-preData.getVoltage()[lineId]) > 2 ? "voltage" : null);
-                list.add(Math.abs(newData.getCurrent()[lineId]-preData.getCurrent()[lineId]) > 200 ? "current" : null);
-                list.add(Math.abs(newData.getLeakCurrent()[lineId]-preData.getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
-                list.add(Math.abs(newData.getPowerP()[lineId]-preData.getPowerP()[lineId]) > 5 ? "power_p" : null);
-                list.add(Math.abs(newData.getPowerQ()[lineId]-preData.getPowerQ()[lineId]) > 5 ? "power_q" : null);
-                list.add(Math.abs(newData.getPowerS()[lineId]-preData.getPowerS()[lineId]) > 5 ? "power_s" : null);
+                list.add(Math.abs(newData.getVoltage()[lineId] - preData.getVoltage()[lineId]) > 2 ? "voltage" : null);
+                list.add(Math.abs(newData.getCurrent()[lineId] - preData.getCurrent()[lineId]) > 200 ? "current" : null);
+                list.add(Math.abs(newData.getLeakCurrent()[lineId] - preData.getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
+                list.add(Math.abs(newData.getPowerP()[lineId] - preData.getPowerP()[lineId]) > 5 ? "power_p" : null);
+                list.add(Math.abs(newData.getPowerQ()[lineId] - preData.getPowerQ()[lineId]) > 5 ? "power_q" : null);
+                list.add(Math.abs(newData.getPowerS()[lineId] - preData.getPowerS()[lineId]) > 5 ? "power_s" : null);
 
-                list.add(Math.abs(newData.getTilt()[lineId]-preData.getTilt()[lineId]) > 2 ? "tilt" : null);
+                list.add(Math.abs(newData.getTilt()[lineId] - preData.getTilt()[lineId]) > 2 ? "tilt" : null);
                 break;
             case "slave":
                 list.add(newData.getSlaveInfo().getFrequency()[lineId].subtract(preData.getSlaveInfo().getFrequency()[lineId]).abs().compareTo(BigDecimal.valueOf(0.05)) == 1 ? "frequency" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getVoltage()[lineId]-preData.getSlaveInfo().getVoltage()[lineId]) > 2 ? "voltage" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getCurrent()[lineId]-preData.getSlaveInfo().getCurrent()[lineId]) > 200 ? "current" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getLeakCurrent()[lineId]-preData.getSlaveInfo().getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerP()[lineId]-preData.getSlaveInfo().getPowerP()[lineId]) > 5 ? "power_p" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerQ()[lineId]-preData.getSlaveInfo().getPowerQ()[lineId]) > 5 ? "power_q" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerS()[lineId]-preData.getSlaveInfo().getPowerS()[lineId]) > 5 ? "power_s" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getVoltage()[lineId] - preData.getSlaveInfo().getVoltage()[lineId]) > 2 ? "voltage" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getCurrent()[lineId] - preData.getSlaveInfo().getCurrent()[lineId]) > 200 ? "current" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getLeakCurrent()[lineId] - preData.getSlaveInfo().getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerP()[lineId] - preData.getSlaveInfo().getPowerP()[lineId]) > 5 ? "power_p" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerQ()[lineId] - preData.getSlaveInfo().getPowerQ()[lineId]) > 5 ? "power_q" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerS()[lineId] - preData.getSlaveInfo().getPowerS()[lineId]) > 5 ? "power_s" : null);
 
-                list.add(Math.abs(newData.getSlaveInfo().getTilt()[lineId]-preData.getSlaveInfo().getTilt()[lineId]) > 2 ? "tilt" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getTilt()[lineId] - preData.getSlaveInfo().getTilt()[lineId]) > 2 ? "tilt" : null);
                 break;
             default:
                 break;
         }
-        propertyMap.put(lineId,list);
+        propertyMap.put(lineId, list);
     }
 
+
+    public void testWhile(String clientId) throws MqttException, InterruptedException {
+        Thread.sleep(2000);
+        int second = 2;
+        DeviceInfo deviceInfo = mapClient.get(clientId);
+        if (second == 600) {
+            for (int i = 0; i < deviceInfo.getEnergyQ().length; i++) {
+                deviceInfo.getEnergyQ()[i] = deviceInfo.getEnergyQ()[i].add(BigDecimal.TEN);
+                deviceInfo.getEnergyP()[i] = deviceInfo.getEnergyP()[i].add(BigDecimal.TEN);
+            }
+        }
+        judgeMethod(new DeviceInfo(1, 0), deviceInfo, "device", 0);
+        report(clientId);
+    }
 
     public void report(String clientId) throws MqttException {
         String[] topicAttr = topic.split("/");
@@ -348,7 +363,7 @@ public class EmqConfig {
         int length = split.length;
         if (length > 1) {
             switchNum = vo.getSlaveInfo().getSNum();
-            topic = "/" + split[1] + "/" + split[0] + "/" + clientId + "report";
+            topic = "/" + split[1] + "/" + split[0] + "/" + clientId + "/report";
         } else {
             switchNum = vo.getNum();
             topic = "/" + split[0] + "/" + clientId + "report";
@@ -370,48 +385,45 @@ public class EmqConfig {
             if (propertyMap.containsKey(i)) {
                 sb.append("{\"line_id\":\"").append(i);
                 List<String> propertys = propertyMap.get(i);
-                DeviceInfo finalVo = vo;
-                int finalI = i;
-                propertys.forEach(e -> {
-                    switch (e) {
-                        case "voltage":
-                            sb.append("\",\"voltage\":\"").append(finalVo.getVoltage()[finalI]);
-                            break;
-                        case "power_q":
-                            sb.append("\",\"power_q:\":\"").append(finalVo.getPowerQ()[finalI]);
-                            break;
-                        case "current":
-                            sb.append("\",\"current\":\"").append(finalVo.getCurrent()[finalI]);
-                            break;
-                        case "power_s":
-                            sb.append("\",\"power_s\":\"").append(finalVo.getPowerS()[finalI]);
-                            break;
-                        case "frequency":
-                            sb.append("\",\"frequency\":\"").append(finalVo.getFrequency()[finalI]);
-                            break;
-                        case "energy_p":
-                            sb.append("\",\"energy_p\":\"").append(finalVo.getEnergyP()[finalI]);
-                            break;
-                        case "leak_current":
-                            sb.append("\",\"leak_current\":\"").append(finalVo.getLeakCurrent()[finalI]);
-                            break;
-                        case "energy_q":
-                            sb.append("\",\"energy_q\":\"").append(finalVo.getEnergyQ()[finalI]);
-                            break;
-                        case "power_p":
-                            sb.append("\",\"power_p\":\"").append(finalVo.getPowerP()[finalI]);
-                            break;
-                        case "tilt":
-                            sb.append("\",\"tilt\":\"").append(finalVo.getTilt()[finalI]);
-                            break;
-                        case "switch":
-                            sb.append("\",\"switch\":\"").append(switchMap.get(finalI));
-                            break;
-                        default:
 
-                            break;
-                    }
-                });
+                switch (propertys.get(i)) {
+                    case "voltage":
+                        sb.append("\",\"voltage\":\"").append(vo.getVoltage()[i]);
+                        break;
+                    case "power_q":
+                        sb.append("\",\"power_q:\":\"").append(vo.getPowerQ()[i]);
+                        break;
+                    case "current":
+                        sb.append("\",\"current\":\"").append(vo.getCurrent()[i]);
+                        break;
+                    case "power_s":
+                        sb.append("\",\"power_s\":\"").append(vo.getPowerS()[i]);
+                        break;
+                    case "frequency":
+                        sb.append("\",\"frequency\":\"").append(vo.getFrequency()[i]);
+                        break;
+                    case "energy_p":
+                        sb.append("\",\"energy_p\":\"").append(vo.getEnergyP()[i]);
+                        break;
+                    case "leak_current":
+                        sb.append("\",\"leak_current\":\"").append(vo.getLeakCurrent()[i]);
+                        break;
+                    case "energy_q":
+                        sb.append("\",\"energy_q\":\"").append(vo.getEnergyQ()[i]);
+                        break;
+                    case "power_p":
+                        sb.append("\",\"power_p\":\"").append(vo.getPowerP()[i]);
+                        break;
+                    case "tilt":
+                        sb.append("\",\"tilt\":\"").append(vo.getTilt()[i]);
+                        break;
+                    case "switch":
+                        sb.append("\",\"switch\":\"").append(switchMap.get(i));
+                        break;
+                    default:
+
+                        break;
+                }
                 sb.append("\"},");
             }
 

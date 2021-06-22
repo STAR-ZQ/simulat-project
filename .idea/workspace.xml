@@ -7,20 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="028f885a-d38b-42ea-b6b9-ddbae5cc6223" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_7.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/RandomNumber.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/simulate.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/simulate.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulate_application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/simulate_application.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/entity/DeviceInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/entity/DeviceInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/zh/simulate/emq/config/EmqConfig$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/zh/simulate/emq/config/EmqConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/cn/zh/simulate/emq/controller/TestConfigController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/cn/zh/simulate/emq/entity/DeviceInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/zh/simulate/emq/entity/DeviceInfo.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +71,7 @@
       <recent name="C:\Users\86182\IdeaProjects\simulate_application\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DeviceInfo">
+  <component name="RunManager" selected="Spring Boot.EmqApplication">
     <configuration name="DeviceInfo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cn.zh.simulate.emq.entity.DeviceInfo" />
       <module name="simulate_application" />
@@ -130,8 +120,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DeviceInfo" />
         <item itemvalue="Application.TestConfigController" />
+        <item itemvalue="Application.DeviceInfo" />
         <item itemvalue="Application.RandomNumber" />
       </list>
     </recent_temporary>
@@ -151,7 +141,7 @@
       <workItem from="1623979643962" duration="23685000" />
       <workItem from="1624067712512" duration="13329000" />
       <workItem from="1624238996531" duration="22210000" />
-      <workItem from="1624325784881" duration="21245000" />
+      <workItem from="1624325784881" duration="25278000" />
     </task>
     <servers />
   </component>
@@ -175,10 +165,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624262118986" />
-    <state width="448" height="466" key="DebuggerActiveHint" timestamp="1624334840151">
+    <state width="462" height="466" key="DebuggerActiveHint" timestamp="1624357702429">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="448" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1624334840151" />
+    <state width="462" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1624357702429" />
     <state x="184" y="86" key="DiffContextDialog" timestamp="1624256018536">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -187,54 +177,54 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="937" y="304" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1624067690810" />
-    <state width="1877" height="418" key="GridCell.Tab.0.bottom" timestamp="1624336441659">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1624358022447">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="418" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624336441659" />
-    <state width="1877" height="418" key="GridCell.Tab.0.center" timestamp="1624336441659">
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624358022447" />
+    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1624358022446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="418" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624336441659" />
-    <state width="1877" height="418" key="GridCell.Tab.0.left" timestamp="1624336441659">
+    <state width="1877" height="295" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624358022446" />
+    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1624358022446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="418" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624336441659" />
-    <state width="1877" height="418" key="GridCell.Tab.0.right" timestamp="1624336441659">
+    <state width="1877" height="295" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624358022446" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1624358022446">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="418" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624336441659" />
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom" timestamp="1624336326735">
+    <state width="1877" height="295" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624358022446" />
+    <state width="1877" height="295" key="GridCell.Tab.1.bottom" timestamp="1624357860063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624336326735" />
-    <state width="1877" height="273" key="GridCell.Tab.1.center" timestamp="1624336326735">
+    <state width="1877" height="295" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624357860063" />
+    <state width="1877" height="295" key="GridCell.Tab.1.center" timestamp="1624357860063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624336326735" />
-    <state width="1877" height="273" key="GridCell.Tab.1.left" timestamp="1624336326735">
+    <state width="1877" height="295" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624357860063" />
+    <state width="1877" height="295" key="GridCell.Tab.1.left" timestamp="1624357860063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624336326735" />
-    <state width="1877" height="273" key="GridCell.Tab.1.right" timestamp="1624336326735">
+    <state width="1877" height="295" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624357860063" />
+    <state width="1877" height="295" key="GridCell.Tab.1.right" timestamp="1624357860063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624336326735" />
-    <state width="1877" height="413" key="GridCell.Tab.2.bottom" timestamp="1624271339067">
+    <state width="1877" height="295" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624357860063" />
+    <state width="1877" height="295" key="GridCell.Tab.2.bottom" timestamp="1624357755105">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="413" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624271339067" />
-    <state width="1877" height="413" key="GridCell.Tab.2.center" timestamp="1624271339067">
+    <state width="1877" height="295" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624357755105" />
+    <state width="1877" height="295" key="GridCell.Tab.2.center" timestamp="1624357755104">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="413" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624271339067" />
-    <state width="1877" height="413" key="GridCell.Tab.2.left" timestamp="1624271339067">
+    <state width="1877" height="295" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624357755104" />
+    <state width="1877" height="295" key="GridCell.Tab.2.left" timestamp="1624357755104">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="413" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624271339067" />
-    <state width="1877" height="413" key="GridCell.Tab.2.right" timestamp="1624271339067">
+    <state width="1877" height="295" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624357755104" />
+    <state width="1877" height="295" key="GridCell.Tab.2.right" timestamp="1624357755105">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="413" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624271339067" />
+    <state width="1877" height="295" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624357755105" />
     <state x="713" y="230" key="RollbackChangesDialog" timestamp="1624256020170">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -243,10 +233,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="229" y="44" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1624256798306" />
-    <state width="488" height="528" key="XDebugger.FullValuePopup" timestamp="1624006614383">
+    <state width="488" height="528" key="XDebugger.FullValuePopup" timestamp="1624357784665">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="488" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1624006614383" />
+    <state width="488" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1624357784665" />
     <state x="1239" y="301" key="chooseDestDirectoryDialog" timestamp="1623895220966">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -267,10 +257,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="334" y="221" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1623921122194" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1623921471227">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1624355043147">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1623921471227" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1624355043147" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1624352604160">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -294,6 +284,36 @@
           <line>150</line>
           <option name="timeStamp" value="44" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/controller/TestConfigController.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>354</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>311</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>426</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>448</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/zh/simulate/emq/config/EmqConfig.java</url>
+          <line>388</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
@@ -301,5 +321,8 @@
         <watch expression="emqConfig" language="JAVA" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/simulate_application$EmqApplication.ic" NAME="EmqApplication Coverage Results" MODIFIED="1624354989254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
