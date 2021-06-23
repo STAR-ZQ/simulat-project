@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -71,9 +72,6 @@ public class TestConfigController {
                 DeviceInfo deviceInfo = new DeviceInfo(e.getNum(), e.getSlaveNum());
                 try {
                     emqConfig.conn(map, e.getId(), deviceInfo, ds.getType());
-                    while (true){
-                        emqConfig.testWhile(e.getId());
-                    }
 //                    emqConfig.report(e.getId());
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -83,7 +81,22 @@ public class TestConfigController {
 //                });
             });
         }
+        List<String> ids = Lists.newArrayList();
+        for (String key : map.keySet()) {
+            ids.add(key);
+            for (String keys : map.get(key)) {
+                ids.add(keys);
+            }
+        }
+        System.out.println(JSON.toJSONString(ids));
 
+        try {
+            emqConfig.testWhile(ids);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 //        while (true){
 ////            Thread.sleep(2000);
 //        }

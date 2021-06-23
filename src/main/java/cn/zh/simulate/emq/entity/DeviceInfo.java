@@ -135,6 +135,7 @@ public class DeviceInfo {
 
         public void initSlaveData() {
             for (int i = 0; i < sNum; i++) {
+                this.switchStatus[i] = "off";
                 this.voltage[i] = RandomNumber.produceRateRandomNumber(198, 280, Lists.newArrayList(215, 225, 253), Lists.newArrayList(5.0, 85.0, 5.0, 5.0));
                 this.current[i] = RandomNumber.produceRateRandomNumber(1500, 5000, Lists.newArrayList(1900, 2000), Lists.newArrayList(5.0, 90.0, 5.0));
                 this.leakCurrent[i] = RandomNumber.produceRateRandomNumber(0, 300, Lists.newArrayList(5, 30), Lists.newArrayList(5.0, 90.0, 5.0));
@@ -167,7 +168,7 @@ public class DeviceInfo {
         this.energyP = new BigDecimal[this.num];
         this.energyQ = new BigDecimal[this.num];
         this.tilt = new Integer[this.num];
-       this.slaveInfo= new SlaveInfo(sNum);
+        this.slaveInfo = new SlaveInfo(sNum);
         initDeviceData();
     }
 
@@ -182,15 +183,20 @@ public class DeviceInfo {
 
     public void initDeviceData() {
         for (int i = 0; i < num; i++) {
+            this.switchStatus[i] = "off";
             this.voltage[i] = RandomNumber.produceRateRandomNumber(198, 280, Lists.newArrayList(215, 225, 253), Lists.newArrayList(5.0, 85.0, 5.0, 5.0));
-            this.current[i] = RandomNumber.produceRateRandomNumber(1500, 5000, Lists.newArrayList(1900, 2000), Lists.newArrayList(5.0, 90.0, 5.0));
+            if ("off".equals(this.switchStatus[i])) {
+                this.current[i] = 0;
+            } else {
+                this.current[i] = RandomNumber.produceRateRandomNumber(1500, 5000, Lists.newArrayList(1900, 2000), Lists.newArrayList(5.0, 90.0, 5.0));
+            }
             this.leakCurrent[i] = RandomNumber.produceRateRandomNumber(0, 300, Lists.newArrayList(5, 30), Lists.newArrayList(5.0, 90.0, 5.0));
 
             this.frequency[i] = BigDecimal.valueOf(RandomNumber.produceRateRandomNumber(49.8, 60.0, Lists.newArrayList(49.95, 50.05), Lists.newArrayList(5.0, 90.0, 5.0))).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-            this.powerP[i] = (int) ((this.voltage[i] * this.current[i]) * 0.9);
-            this.powerQ[i] = (int) ((this.voltage[i] * this.current[i]) * 0.1);
-            this.powerS[i] = this.voltage[i] * this.current[i];
+            this.powerP[i] = (int) ((this.voltage[i] * this.current[i]) * 0.9) / 1000;
+            this.powerQ[i] = (int) ((this.voltage[i] * this.current[i]) * 0.1) / 1000;
+            this.powerS[i] = this.voltage[i] * this.current[i] / 1000;
 //            this.energyP[i] = energyP[i].add(BigDecimal.valueOf((0.44 / (3600 / scheduleTime) * 0.9))).setScale(2, BigDecimal.ROUND_HALF_UP);
 //            this.energyQ[i] = energyQ[i].add(BigDecimal.valueOf((0.44 / (3600 / scheduleTime) * 0.1))).setScale(2, BigDecimal.ROUND_HALF_UP);
             this.energyP[i] = BigDecimal.valueOf((0.44 / (3600 / scheduleTime) * 0.9)).setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -233,6 +239,7 @@ public class DeviceInfo {
 //        this.tilt = random(15, 0);
 ////        this.lineId = random(3,0);
     }
+
     public static void main(String[] args) {
         DeviceInfo deviceInfo = new DeviceInfo(6, 4);
         System.out.println(JSON.toJSONString(deviceInfo));
