@@ -92,9 +92,7 @@ public class TestConfigController {
 
         try {
             emqConfig.testWhile(ids);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (MqttException | InterruptedException e) {
             e.printStackTrace();
         }
 //        while (true){

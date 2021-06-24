@@ -150,14 +150,10 @@ public class EmqConfig {
 //        client.subscribe("/"+type+"/");");
         // 此处使用的MqttCallbackExtended类而不是MqttCallback，是因为如果emq服务出现异常导致客户端断开连接后，重连后会自动调用connectComplete方法
         client.setCallback(new MqttCallbackExtended() {
-            /**
-             * 重新连接
-             * @param reconnect
-             * @param serverURI
-             */
+
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-                System.out.println("连接完成...");
+                System.out.println("重新连接:连接完成...");
                 try {
                     // 重连后要自己重新订阅topic，这样emq服务发的消息才能重新接收到，不然的话，断开后客户端只是重新连接了服务，并没有自动订阅，导致接收不到消息
                     client.subscribe(topic);
@@ -182,10 +178,6 @@ public class EmqConfig {
                 }
             }
 
-            /**
-             * 失去连接
-             * @param cause
-             */
             @SneakyThrows
             @Override
             public void connectionLost(Throwable cause) {
@@ -193,29 +185,19 @@ public class EmqConfig {
                 client.reconnect();
             }
 
-            /**
-             * 订阅后的消息回调
-             * @param topic
-             * @param message
-             * @throws Exception
-             */
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 String content = new String(message.getPayload());
-                System.out.println("接收消息主题 : " + topic);
+                System.out.println("订阅后的消息回调:接收消息主题 : " + topic);
                 System.out.println("接收消息Qos : " + message.getQos());
                 System.out.println("接收消息内容 : " + content);
                 buildDataPublish(topic, content, message);
             }
 
-            /**
-             * 发布消息后
-             * @param token
-             */
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 publishCount++;
-                System.out.println("deliveryComplete....");
+                System.out.println("发布消息后deliveryComplete....");
             }
         });
         System.out.println(clientId + "连接状态：" + client.isConnected());
@@ -233,6 +215,7 @@ public class EmqConfig {
         String[] topicAttr = topic.split("/");
         //根据设备id拿到对应的对象数据
         vo = mapClient.get(topicAttr[topicAttr.length - 2]);
+        System.out.println("设备id：" + topicAttr[topicAttr.length - 2] + "\nvo:" + JSON.toJSONString(vo));
 
         // 处理数据
         JSONObject jsonObject = JSONObject.parseObject(content);
@@ -307,14 +290,18 @@ public class EmqConfig {
         if ("act.do".equals(method)) {
             switchSb = new StringBuffer();
             switchSb.append("{\"version\":\"2.0.0\",\"data:\":[");
+            Boolean isReport = false;
             switchReqMap = (Map) JSON.parse(object.get("switch").toString());
             for (int i = 0; i < vo.getSwitchStatus().length; i++) {
                 if (!vo.getSwitchStatus()[i].equals(switchReqMap.get(i))) {
+                    isReport = true;
                     switchSb.append("{\"switch\":\"").append(switchReqMap.get(i));
                     if ("off".equals(switchReqMap.get(i))) {
+                        vo.getSwitchStatus()[i] = "off";
                         //关闭开关电流变为0
                         vo.getCurrent()[i] = 0;
                     } else {
+                        vo.getSwitchStatus()[i] = "on";
                         //打开开关生成电流
                         vo.getCurrent()[i] = RandomNumber.produceRateRandomNumber(1500, 5000, Lists.newArrayList(1900, 2000), Lists.newArrayList(5.0, 90.0, 5.0));
                     }
@@ -322,10 +309,16 @@ public class EmqConfig {
                     switchSb.append("\",\"line_id\":\"").append(i).append("\"},");
                 }
             }
-            switchSb.deleteCharAt(switchSb.length() - 1);
+            if (isReport) {
+                switchSb.deleteCharAt(switchSb.length() - 1);
+            }else{
+                return;
+            }
             switchSb.append("],\"time\":\"").append(simpleDateFormat.format(new Date())).append("\",\"device\":\"").append(topicAttr[topicAttr.length - 2]).append("\",\"msgid\":\"").append(msgId).append("\"}");
             message.setPayload(switchSb.toString().getBytes());
             String reportTopic = topic.substring(0, topic.length() - 3).concat("report");
+            System.out.println("switych-->report----------------->" + switchReqMap.get(0) + "/" + "off".equals(switchReqMap.get(0)) + "\n" + switchSb.toString());
+            System.out.println("vo:" + JSON.toJSONString(vo));
             client.publish(reportTopic, message);
         }
     }
@@ -366,7 +359,10 @@ public class EmqConfig {
             default:
                 break;
         }
-        propertyMap.put(lineId, list);
+        list = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(list)) {
+            propertyMap.put(lineId, list);
+        }
     }
 
     int second = 0;
@@ -436,16 +432,19 @@ public class EmqConfig {
 //            switchNum = deviceInfo.getNum();
 //        }
         sb.append("\",\"version\":\"2.0.0\",\"msgid\":\"C").append(publishCount).append("\",\"data\":[");
+//        System.out.println(JSON.toJSONString(propertyMap));
+        if (propertyMap.size() < 1) {
+            return;
+        }
 
         for (int i = 0; i < switchNum; i++) {
             if (propertyMap.containsKey(i)) {
-                List<String> propertys = propertyMap.get(i).stream().filter(Objects::nonNull).collect(Collectors.toList());
-                if (CollectionUtils.isEmpty(propertys)) {
-                    break;
-                }
+//                List<String> propertys = propertyMap.get(i).stream().filter(Objects::nonNull).collect(Collectors.toList());
+//                if (CollectionUtils.isEmpty(propertys)) {
+//                    break;
+//                }
                 sb.append("{\"line_id\":\"").append(i);
-                for (int j = 0; j < propertys.size(); j++) {
-                    String property = propertys.get(j);
+                for (String property : propertyMap.get(i)) {
                     if (length > 1) {
                         buildSlaveData(property, i);
                     } else {
@@ -456,7 +455,7 @@ public class EmqConfig {
             }
         }
         if (switchNum > 0) {
-            System.out.println("test-->"+switchNum);
+            System.out.println("test-->" + switchNum);
             sb.deleteCharAt(sb.length() - 1);
         }
         sb.append("],\"time\":\"").append(simpleDateFormat.format(new Date())).append("\"}");
@@ -465,7 +464,7 @@ public class EmqConfig {
         mqttMessage.setPayload(sb.toString().getBytes());
         System.out.println("report==>" + JSON.toJSONString(sb.toString()));
         client.publish(topic, mqttMessage);
-
+        propertyMap = Maps.newHashMap();
 //        publishCount++;
     }
 

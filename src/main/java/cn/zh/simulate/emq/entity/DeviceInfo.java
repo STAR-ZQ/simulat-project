@@ -142,8 +142,8 @@ public class DeviceInfo {
 
                 this.frequency[i] = BigDecimal.valueOf(RandomNumber.produceRateRandomNumber(49.8, 60.0, Lists.newArrayList(49.95, 50.05), Lists.newArrayList(5.0, 90.0, 5.0))).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                this.powerP[i] = (int) ((this.voltage[i] * this.current[i]) * 0.9);
-                this.powerQ[i] = (int) ((this.voltage[i] * this.current[i]) * 0.1);
+                this.powerP[i] = (int) ((this.voltage[i] * this.current[i]) * 0.9) / 1000;
+                this.powerQ[i] = (int) ((this.voltage[i] * this.current[i]) * 0.1) / 1000;
                 this.powerS[i] = this.voltage[i] * this.current[i];
                 this.energyP[i] = BigDecimal.valueOf((0.44 / (3600 / scheduleTime) * 0.9)).setScale(2, BigDecimal.ROUND_HALF_UP);
                 this.energyQ[i] = BigDecimal.valueOf((0.44 / (3600 / scheduleTime) * 0.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
