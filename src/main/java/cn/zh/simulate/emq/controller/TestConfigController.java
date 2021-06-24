@@ -90,14 +90,16 @@ public class TestConfigController {
         }
         System.out.println(JSON.toJSONString(ids));
 
+        ids.forEach(e -> {
+            emqConfig.reportThread(e);
+        });
+
         try {
             emqConfig.testWhile(ids);
         } catch (MqttException | InterruptedException e) {
             e.printStackTrace();
         }
-//        while (true){
-////            Thread.sleep(2000);
-//        }
+
 
 //        System.out.println("============" + Thread.activeCount());        //关闭线程处理
 //        try {
