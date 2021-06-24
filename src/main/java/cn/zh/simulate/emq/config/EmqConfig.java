@@ -18,10 +18,8 @@ import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class EmqConfig {
@@ -40,18 +38,26 @@ public class EmqConfig {
     private Integer keepAliveInterval;
     @Value("${mqtt.connectionTimeout}")
     private Integer connectionTimeout;
-
+    /**
+     * mqtt连接对象
+     */
     private MqttClient client;
     private MqttConnectOptions options;
     //    private String [] topic = new String[100];
     private String topic;
-    //发布消息次数
+    /**
+     * 发布消息次数
+     */
     private int publishCount = 1;
 
+    /**
+     * 方便取值对象 （中间对象）
+     * 从mapClient赋值到vo
+     */
     DeviceInfo vo = new DeviceInfo();
-
     /**
      * 开关map 最新的开关数据
+     * 暂时没用  改成对象属性拿值
      */
     Map<Integer, String> switchMap = new HashMap<>();
     /**
@@ -59,14 +65,17 @@ public class EmqConfig {
      */
     Map switchReqMap = new HashMap();
     /**
-     * publish0
+     * publish
      */
     StringBuffer buffer = new StringBuffer();
+    /**
+     * report 开关
+     */
+    StringBuffer switchSb = new StringBuffer();
     /**
      * report
      */
     StringBuffer sb = new StringBuffer();
-
     /**
      * 1.暂时没用 用来防止重复连接
      * 2.存最新数据  id  对象数据
@@ -80,7 +89,9 @@ public class EmqConfig {
      * 全部id    -id:id/type  | -id/type
      */
     Map<String, String> mapAllClient = new HashMap<>();
-
+    /**
+     * time  格式化
+     */
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     /**
      * 对应线路需要上报的属性  lineId:property
@@ -97,6 +108,7 @@ public class EmqConfig {
                 List<String> slaves = map.get(clientId);
                 slaves.forEach(e -> {
                     mapAllClient.put(e, clientId + "/" + type);
+                    mapClient.put(e, deviceInfo);
                 });
                 break;
             default:
@@ -106,7 +118,7 @@ public class EmqConfig {
         mapClient.put(clientId, deviceInfo);
 //        if (!mapClient.containsKey(clientId)){
         client = new MqttClient(serverURL, clientId, new MemoryPersistence());
-        MqttConnectOptions options = new MqttConnectOptions();
+        options = new MqttConnectOptions();
         options.setUserName(userName);
         options.setPassword(passWord.toCharArray());
         options.setCleanSession(true);
@@ -121,43 +133,44 @@ public class EmqConfig {
         switchMap = new HashMap<>();
         if (CollectionUtils.isEmpty(sIds)) {
             topic = "/" + type + "/" + clientId + "/cmd";
-            for (int i = 0; i < deviceInfo.getNum(); i++) {
-                switchMap.put(i, "off");
-            }
+//            for (int i = 0; i < deviceInfo.getNum(); i++) {
+//                switchMap.put(i, "off");
+//            }
         } else {
             if (deviceInfo.getNum() > 0) {
                 topic = "/" + type + "/" + clientId + "/cmd";
                 client.subscribe(topic);
             }
             topic = "/" + type + "/" + clientId + "/+/cmd";
-            for (int i = 0; i < deviceInfo.getNum(); i++) {
-                switchMap.put(i, "off");
-            }
+//            for (int i = 0; i < deviceInfo.getNum(); i++) {
+//                switchMap.put(i, "off");
+//            }
         }
         client.subscribe(topic);
 //        client.subscribe("/"+type+"/");");
         // 此处使用的MqttCallbackExtended类而不是MqttCallback，是因为如果emq服务出现异常导致客户端断开连接后，重连后会自动调用connectComplete方法
         client.setCallback(new MqttCallbackExtended() {
+
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-                System.out.println("连接完成...");
+                System.out.println("重新连接:连接完成...");
                 try {
                     // 重连后要自己重新订阅topic，这样emq服务发的消息才能重新接收到，不然的话，断开后客户端只是重新连接了服务，并没有自动订阅，导致接收不到消息
                     client.subscribe(topic);
                     if (CollectionUtils.isEmpty(sIds)) {
                         topic = "/" + type + "/" + clientId + "/cmd";
-                        for (int i = 0; i < deviceInfo.getNum(); i++) {
-                            switchMap.put(i, "off");
-                        }
+//                        for (int i = 0; i < deviceInfo.getNum(); i++) {
+//                            switchMap.put(i, "off");
+//                        }
                     } else {
                         if (deviceInfo.getNum() > 0) {
                             topic = "/" + type + "/" + clientId + "/cmd";
                             client.subscribe(topic);
                         }
                         topic = "/" + type + "/" + clientId + "/+/cmd";
-                        for (int i = 0; i < deviceInfo.getNum(); i++) {
-                            switchMap.put(i, "off");
-                        }
+//                        for (int i = 0; i < deviceInfo.getNum(); i++) {
+//                            switchMap.put(i, "off");
+//                        }
                     }
                     log.info("订阅成功");
                 } catch (Exception e) {
@@ -174,9 +187,8 @@ public class EmqConfig {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                // subscribe后得到的消息会执行到这里面
                 String content = new String(message.getPayload());
-                System.out.println("接收消息主题 : " + topic);
+                System.out.println("订阅后的消息回调:接收消息主题 : " + topic);
                 System.out.println("接收消息Qos : " + message.getQos());
                 System.out.println("接收消息内容 : " + content);
                 buildDataPublish(topic, content, message);
@@ -185,7 +197,7 @@ public class EmqConfig {
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
                 publishCount++;
-                System.out.println("deliveryComplete....");
+                System.out.println("发布消息后deliveryComplete....");
             }
         });
         System.out.println(clientId + "连接状态：" + client.isConnected());
@@ -203,6 +215,7 @@ public class EmqConfig {
         String[] topicAttr = topic.split("/");
         //根据设备id拿到对应的对象数据
         vo = mapClient.get(topicAttr[topicAttr.length - 2]);
+        System.out.println("设备id：" + topicAttr[topicAttr.length - 2] + "\nvo:" + JSON.toJSONString(vo));
 
         // 处理数据
         JSONObject jsonObject = JSONObject.parseObject(content);
@@ -257,90 +270,144 @@ public class EmqConfig {
                             buffer.append(",\"tilt\":\"").append(vo.getTilt()[i]);
                             break;
                         case "switch":
-                            buffer.append(",\"switch\":\"").append(switchMap.get(i));
+                            buffer.append(",\"switch\":\"").append(vo.getSwitchStatus()[i]);
                             break;
                         default:
                             break;
                     }
                 }
+                buffer.append("\",");
                 break;
             default:
                 break;
         }
-        buffer.append("\",\"time\":\"").append(simpleDateFormat.format(new Date())).append("\"}");
+        buffer.append("\"time\":\"").append(simpleDateFormat.format(new Date())).append("\"}");
 
 //        message.setQos(1);
         message.setPayload(buffer.toString().getBytes());
         client.publish(topic.concat("_resp"), message);
         buffer = new StringBuffer();
         if ("act.do".equals(method)) {
-            StringBuffer sb = new StringBuffer();
-            sb.append("{\"version\":\"2.0.0\",\"data:\":[");
+            switchSb = new StringBuffer();
+            switchSb.append("{\"version\":\"2.0.0\",\"data:\":[");
+            Boolean isReport = false;
             switchReqMap = (Map) JSON.parse(object.get("switch").toString());
-            for (int i = 0; i < switchMap.size(); i++) {
-                if (!switchMap.get(i).equals(switchReqMap.get(i))) {
-                    sb.append("{\"switch\":\"").append(switchReqMap.get(i));
+            for (int i = 0; i < vo.getSwitchStatus().length; i++) {
+                if (!vo.getSwitchStatus()[i].equals(switchReqMap.get(i))) {
+                    isReport = true;
+                    switchSb.append("{\"switch\":\"").append(switchReqMap.get(i));
                     if ("off".equals(switchReqMap.get(i))) {
+                        vo.getSwitchStatus()[i] = "off";
                         //关闭开关电流变为0
-                        vo.getFrequency()[i] = BigDecimal.ZERO;
-                        sb.append("\",\"frequency\":").append(vo.getFrequency()[i]);
+                        vo.getCurrent()[i] = 0;
+                    } else {
+                        vo.getSwitchStatus()[i] = "on";
+                        //打开开关生成电流
+                        vo.getCurrent()[i] = RandomNumber.produceRateRandomNumber(1500, 5000, Lists.newArrayList(1900, 2000), Lists.newArrayList(5.0, 90.0, 5.0));
                     }
-                    sb.append("\",\"line_id\":").append(i).append("},");
+                    switchSb.append("\",\"current\":\"").append(vo.getCurrent()[i]);
+                    switchSb.append("\",\"line_id\":\"").append(i).append("\"},");
                 }
             }
-            sb.deleteCharAt(sb.length() - 1);
-            sb.append("],\"time\":\"").append(simpleDateFormat.format(new Date())).append("\",\"device\":\"").append(topicAttr[topicAttr.length - 2]).append("\",\"msgid\":\"").append(msgId).append("\"}");
-            message.setPayload(sb.toString().getBytes());
+            if (isReport) {
+                switchSb.deleteCharAt(switchSb.length() - 1);
+            }else{
+                return;
+            }
+            switchSb.append("],\"time\":\"").append(simpleDateFormat.format(new Date())).append("\",\"device\":\"").append(topicAttr[topicAttr.length - 2]).append("\",\"msgid\":\"").append(msgId).append("\"}");
+            message.setPayload(switchSb.toString().getBytes());
             String reportTopic = topic.substring(0, topic.length() - 3).concat("report");
+            System.out.println("switych-->report----------------->" + switchReqMap.get(0) + "/" + "off".equals(switchReqMap.get(0)) + "\n" + switchSb.toString());
+            System.out.println("vo:" + JSON.toJSONString(vo));
             client.publish(reportTopic, message);
-            sb = new StringBuffer();
         }
     }
 
     /**
      * 容忍度比较判断
+     *
      * @param newData 新生成的随机数据
      * @param preData 展示数据
-     * @param type 设备类型
-     * @param lineId 线路id
+     * @param type    设备类型
+     * @param lineId  线路id
      */
     public void judgeMethod(DeviceInfo newData, DeviceInfo preData, String type, int lineId) {
         List<String> list = Lists.newArrayList();
         switch (type) {
             case "device":
                 list.add(newData.getFrequency()[lineId].subtract(preData.getFrequency()[lineId]).abs().compareTo(BigDecimal.valueOf(0.05)) == 1 ? "frequency" : null);
-                list.add(Math.abs(newData.getVoltage()[lineId]-preData.getVoltage()[lineId]) > 2 ? "voltage" : null);
-                list.add(Math.abs(newData.getCurrent()[lineId]-preData.getCurrent()[lineId]) > 200 ? "current" : null);
-                list.add(Math.abs(newData.getLeakCurrent()[lineId]-preData.getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
-                list.add(Math.abs(newData.getPowerP()[lineId]-preData.getPowerP()[lineId]) > 5 ? "power_p" : null);
-                list.add(Math.abs(newData.getPowerQ()[lineId]-preData.getPowerQ()[lineId]) > 5 ? "power_q" : null);
-                list.add(Math.abs(newData.getPowerS()[lineId]-preData.getPowerS()[lineId]) > 5 ? "power_s" : null);
+                list.add(Math.abs(newData.getVoltage()[lineId] - preData.getVoltage()[lineId]) > 2 ? "voltage" : null);
+                list.add(Math.abs(newData.getCurrent()[lineId] - preData.getCurrent()[lineId]) > 200 ? "current" : null);
+                list.add(Math.abs(newData.getLeakCurrent()[lineId] - preData.getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
+                list.add(Math.abs(newData.getPowerP()[lineId] - preData.getPowerP()[lineId]) > 5 ? "power_p" : null);
+                list.add(Math.abs(newData.getPowerQ()[lineId] - preData.getPowerQ()[lineId]) > 5 ? "power_q" : null);
+                list.add(Math.abs(newData.getPowerS()[lineId] - preData.getPowerS()[lineId]) > 5 ? "power_s" : null);
 
-                list.add(Math.abs(newData.getTilt()[lineId]-preData.getTilt()[lineId]) > 2 ? "tilt" : null);
+                list.add(Math.abs(newData.getTilt()[lineId] - preData.getTilt()[lineId]) > 2 ? "tilt" : null);
                 break;
             case "slave":
                 list.add(newData.getSlaveInfo().getFrequency()[lineId].subtract(preData.getSlaveInfo().getFrequency()[lineId]).abs().compareTo(BigDecimal.valueOf(0.05)) == 1 ? "frequency" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getVoltage()[lineId]-preData.getSlaveInfo().getVoltage()[lineId]) > 2 ? "voltage" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getCurrent()[lineId]-preData.getSlaveInfo().getCurrent()[lineId]) > 200 ? "current" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getLeakCurrent()[lineId]-preData.getSlaveInfo().getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerP()[lineId]-preData.getSlaveInfo().getPowerP()[lineId]) > 5 ? "power_p" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerQ()[lineId]-preData.getSlaveInfo().getPowerQ()[lineId]) > 5 ? "power_q" : null);
-                list.add(Math.abs(newData.getSlaveInfo().getPowerS()[lineId]-preData.getSlaveInfo().getPowerS()[lineId]) > 5 ? "power_s" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getVoltage()[lineId] - preData.getSlaveInfo().getVoltage()[lineId]) > 2 ? "voltage" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getCurrent()[lineId] - preData.getSlaveInfo().getCurrent()[lineId]) > 200 ? "current" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getLeakCurrent()[lineId] - preData.getSlaveInfo().getLeakCurrent()[lineId]) > 5 ? "leak_current" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerP()[lineId] - preData.getSlaveInfo().getPowerP()[lineId]) > 5 ? "power_p" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerQ()[lineId] - preData.getSlaveInfo().getPowerQ()[lineId]) > 5 ? "power_q" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getPowerS()[lineId] - preData.getSlaveInfo().getPowerS()[lineId]) > 5 ? "power_s" : null);
 
-                list.add(Math.abs(newData.getSlaveInfo().getTilt()[lineId]-preData.getSlaveInfo().getTilt()[lineId]) > 2 ? "tilt" : null);
+                list.add(Math.abs(newData.getSlaveInfo().getTilt()[lineId] - preData.getSlaveInfo().getTilt()[lineId]) > 2 ? "tilt" : null);
                 break;
             default:
                 break;
         }
-        propertyMap.put(lineId,list);
+        list = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(list)) {
+            propertyMap.put(lineId, list);
+        }
     }
 
+    int second = 0;
+
+    public void testWhile(List<String> ids) throws MqttException, InterruptedException {
+        while (true) {
+            for (String clientId : ids) {
+                Thread.sleep(2000);
+                DeviceInfo deviceInfo = mapClient.get(clientId);
+                if (second == 600) {
+                    for (int i = 0; i < deviceInfo.getEnergyQ().length; i++) {
+                        deviceInfo.getEnergyQ()[i] = deviceInfo.getEnergyQ()[i].add(BigDecimal.valueOf((0.44 / (3600 / 600) * 0.9))).setScale(2, BigDecimal.ROUND_HALF_UP);
+                        deviceInfo.getEnergyP()[i] = deviceInfo.getEnergyP()[i].add(BigDecimal.valueOf((0.44 / (3600 / 600) * 0.1)).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    }
+                    second = 0;
+                }
+                String operation = mapAllClient.get(clientId);
+                String[] split = operation.split("/");
+                String type;
+                int length = split.length;
+                if (length > 1) {
+//                    type = split[1];
+                    type = "slave";
+                } else {
+//                    type = split[0];
+                    type = "device";
+                }
+                int size = "device".equals(type) ? deviceInfo.getNum() : deviceInfo.getSlaveInfo().getSNum();
+                for (int i = 0; i < size; i++) {
+                    judgeMethod(new DeviceInfo(deviceInfo.getNum(), deviceInfo.getSlaveInfo().getSNum()), deviceInfo, type, i);
+                }
+                report(clientId);
+                second = second + 2;
+            }
+        }
+
+    }
 
     public void report(String clientId) throws MqttException {
-        String[] topicAttr = topic.split("/");
+        Boolean isReport = false;
+//        String[] topicAttr = topic.split("/");
         vo = mapClient.get(clientId);
         //线路数
         int switchNum = 0;
+        sb = new StringBuffer();
 
         String topic = null;
         String operation = mapAllClient.get(clientId);
@@ -348,10 +415,10 @@ public class EmqConfig {
         int length = split.length;
         if (length > 1) {
             switchNum = vo.getSlaveInfo().getSNum();
-            topic = "/" + split[1] + "/" + split[0] + "/" + clientId + "report";
+            topic = "/" + split[1] + "/" + split[0] + "/" + clientId + "/report";
         } else {
             switchNum = vo.getNum();
-            topic = "/" + split[0] + "/" + clientId + "report";
+            topic = "/" + split[0] + "/" + clientId + "/report";
         }
 
 
@@ -365,77 +432,131 @@ public class EmqConfig {
 //            switchNum = deviceInfo.getNum();
 //        }
         sb.append("\",\"version\":\"2.0.0\",\"msgid\":\"C").append(publishCount).append("\",\"data\":[");
+//        System.out.println(JSON.toJSONString(propertyMap));
+        if (propertyMap.size() < 1) {
+            return;
+        }
 
         for (int i = 0; i < switchNum; i++) {
             if (propertyMap.containsKey(i)) {
+//                List<String> propertys = propertyMap.get(i).stream().filter(Objects::nonNull).collect(Collectors.toList());
+//                if (CollectionUtils.isEmpty(propertys)) {
+//                    break;
+//                }
                 sb.append("{\"line_id\":\"").append(i);
-                List<String> propertys = propertyMap.get(i);
-                DeviceInfo finalVo = vo;
-                int finalI = i;
-                propertys.forEach(e -> {
-                    switch (e) {
-                        case "voltage":
-                            sb.append("\",\"voltage\":\"").append(finalVo.getVoltage()[finalI]);
-                            break;
-                        case "power_q":
-                            sb.append("\",\"power_q:\":\"").append(finalVo.getPowerQ()[finalI]);
-                            break;
-                        case "current":
-                            sb.append("\",\"current\":\"").append(finalVo.getCurrent()[finalI]);
-                            break;
-                        case "power_s":
-                            sb.append("\",\"power_s\":\"").append(finalVo.getPowerS()[finalI]);
-                            break;
-                        case "frequency":
-                            sb.append("\",\"frequency\":\"").append(finalVo.getFrequency()[finalI]);
-                            break;
-                        case "energy_p":
-                            sb.append("\",\"energy_p\":\"").append(finalVo.getEnergyP()[finalI]);
-                            break;
-                        case "leak_current":
-                            sb.append("\",\"leak_current\":\"").append(finalVo.getLeakCurrent()[finalI]);
-                            break;
-                        case "energy_q":
-                            sb.append("\",\"energy_q\":\"").append(finalVo.getEnergyQ()[finalI]);
-                            break;
-                        case "power_p":
-                            sb.append("\",\"power_p\":\"").append(finalVo.getPowerP()[finalI]);
-                            break;
-                        case "tilt":
-                            sb.append("\",\"tilt\":\"").append(finalVo.getTilt()[finalI]);
-                            break;
-                        case "switch":
-                            sb.append("\",\"switch\":\"").append(switchMap.get(finalI));
-                            break;
-                        default:
-
-                            break;
+                for (String property : propertyMap.get(i)) {
+                    if (length > 1) {
+                        buildSlaveData(property, i);
+                    } else {
+                        buildDeviceData(property, i);
                     }
-                });
+                }
                 sb.append("\"},");
             }
-
-            //            sb.append("{\"line_id\":\"")
-//                    .append(i)
-//                    .append("\",\"frequency\":\"")
-//                    .append(vo.getFrequency()[i])
-//                    .append("\",\"voltage\":\"")
-//                    .append(vo.getVoltage()[i])
-//                    .append("\",\"current\":\"")
-//                    .append(vo.getCurrent()[i])
-//                    .append("\",\"energy_p\":\"")
-//                    .append(vo.getEnergyP()[i])
-//                    .append("\",\"power_p\":\"")
-//                    .append(vo.getPowerP()[i])
-//                    .append("\"},");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (switchNum > 0) {
+            System.out.println("test-->" + switchNum);
+            sb.deleteCharAt(sb.length() - 1);
+        }
         sb.append("],\"time\":\"").append(simpleDateFormat.format(new Date())).append("\"}");
         MqttMessage mqttMessage = new MqttMessage();
         mqttMessage.setQos(1);
         mqttMessage.setPayload(sb.toString().getBytes());
+        System.out.println("report==>" + JSON.toJSONString(sb.toString()));
         client.publish(topic, mqttMessage);
-        sb = new StringBuffer();
-        publishCount++;
+        propertyMap = Maps.newHashMap();
+//        publishCount++;
+    }
+
+    /**
+     * 构造主设备数据（/xx/id/cmd）
+     *
+     * @param property
+     * @param i
+     */
+    public void buildDeviceData(String property, int i) {
+        switch (property) {
+            case "voltage":
+                sb.append("\",\"voltage\":\"").append(vo.getVoltage()[i]);
+                break;
+            case "power_q":
+                sb.append("\",\"power_q:\":\"").append(vo.getPowerQ()[i]);
+                break;
+            case "current":
+                sb.append("\",\"current\":\"").append(vo.getCurrent()[i]);
+                break;
+            case "power_s":
+                sb.append("\",\"power_s\":\"").append(vo.getPowerS()[i]);
+                break;
+            case "frequency":
+                sb.append("\",\"frequency\":\"").append(vo.getFrequency()[i]);
+                break;
+            case "energy_p":
+                sb.append("\",\"energy_p\":\"").append(vo.getEnergyP()[i]);
+                break;
+            case "leak_current":
+                sb.append("\",\"leak_current\":\"").append(vo.getLeakCurrent()[i]);
+                break;
+            case "energy_q":
+                sb.append("\",\"energy_q\":\"").append(vo.getEnergyQ()[i]);
+                break;
+            case "power_p":
+                sb.append("\",\"power_p\":\"").append(vo.getPowerP()[i]);
+                break;
+            case "tilt":
+                sb.append("\",\"tilt\":\"").append(vo.getTilt()[i]);
+                break;
+            case "switch":
+                sb.append("\",\"switch\":\"").append(vo.getSwitchStatus()[i]);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 构造从设备数据 （/xx/id/sid,cmd）
+     *
+     * @param property
+     * @param i
+     */
+    public void buildSlaveData(String property, int i) {
+        switch (property) {
+            case "voltage":
+                sb.append("\",\"voltage\":\"").append(vo.getSlaveInfo().getVoltage()[i]);
+                break;
+            case "power_q":
+                sb.append("\",\"power_q:\":\"").append(vo.getSlaveInfo().getPowerQ()[i]);
+                break;
+            case "current":
+                sb.append("\",\"current\":\"").append(vo.getSlaveInfo().getCurrent()[i]);
+                break;
+            case "power_s":
+                sb.append("\",\"power_s\":\"").append(vo.getSlaveInfo().getPowerS()[i]);
+                break;
+            case "frequency":
+                sb.append("\",\"frequency\":\"").append(vo.getSlaveInfo().getFrequency()[i]);
+                break;
+            case "energy_p":
+                sb.append("\",\"energy_p\":\"").append(vo.getSlaveInfo().getEnergyP()[i]);
+                break;
+            case "leak_current":
+                sb.append("\",\"leak_current\":\"").append(vo.getSlaveInfo().getLeakCurrent()[i]);
+                break;
+            case "energy_q":
+                sb.append("\",\"energy_q\":\"").append(vo.getSlaveInfo().getEnergyQ()[i]);
+                break;
+            case "power_p":
+                sb.append("\",\"power_p\":\"").append(vo.getSlaveInfo().getPowerP()[i]);
+                break;
+            case "tilt":
+                sb.append("\",\"tilt\":\"").append(vo.getSlaveInfo().getTilt()[i]);
+                break;
+            case "switch":
+                sb.append("\",\"switch\":\"").append(vo.getSlaveInfo().getSwitchStatus()[i]);
+                break;
+            default:
+                break;
+        }
     }
 }
