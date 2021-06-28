@@ -1,27 +1,138 @@
 emq:
   devices:
-    -
-      type: device
+#    单独联网设备
+#    1开关
+    - type: device
       info:
-        - id: "010201000011"
+        - id: "010201000002"
           slaves: []
           num: 1
           slaveNum: 0
-    -
-      type: gateway
+        - id: "010201000003"
+          slaves: []
+          num: 1
+          slaveNum: 0
+        - id: "010201000004"
+          slaves: []
+          num: 1
+          slaveNum: 0
+        - id: "010201000005"
+          slaves: []
+          num: 1
+          slaveNum: 0
+        - id: "010201000006"
+          slaves: []
+          num: 1
+          slaveNum: 0
+#                 2开关
+        - id: "FF0001000001"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000002"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000003"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000004"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000005"
+          slaves: []
+          num: 2
+          slaveNum: 0
+
+#            网关
+    - type: gateway
       info:
-            -
-              id: "010401000011"
-              slaves: ["010301000001","010301000002"]
-              num: 0
-              slaveNum: 4
-            -
-              id: "010401000012"
-              slaves: ["010501000001","010501000002"]
-              num: 6
-              slaveNum: 4
-            -
-              id: "010401000006"
-              slaves: ["010601000001","010601000002"]
-              num: 6
-              slaveNum: 1
+#        1.网关:0  从设备:4
+        - id: "010401000003"
+          slaves: ["010301000011","010301000012"]
+          num: 0
+          slaveNum: 4
+        - id: "010401000004"
+          slaves: ["010301000015","010301000016"]
+          num: 0
+          slaveNum: 4
+        - id: "010401000005"
+          slaves: ["010301000017","010301000018"]
+          num: 0
+          slaveNum: 4
+        - id: "010401000006"
+          slaves: ["010301000019","010301000020"]
+          num: 0
+          slaveNum: 4
+        - id: "010401000007"
+          slaves: ["010301000021","010301000022"]
+          num: 0
+          slaveNum: 4
+
+#          2.网关:6 从设备:4
+        - id: "FF0002000001"
+          slaves: ["010301000013","010301000014"]
+          num: 6
+          slaveNum: 4
+        - id: "FF0002000002"
+          slaves: ["010301000023","010301000024"]
+          num: 6
+          slaveNum: 4
+        - id: "FF0002000003"
+          slaves: ["010301000025","010301000026"]
+          num: 6
+          slaveNum: 4
+        - id: "FF0002000004"
+          slaves: ["010301000027","010301000028"]
+          num: 6
+          slaveNum: 4
+        - id: "FF0002000005"
+          slaves: ["010301000029","010301000030"]
+          num: 6
+          slaveNum: 4
+
+        #         3.网关:6 从设备:1
+        - id: "FF0002000007"
+          slaves: ["CCCCC1000001","CCCCC1000002"]
+          num: 6
+          slaveNum: 1
+        - id: "FF0002000006"
+          slaves: ["CCCCC1000003","CCCCC1000004"]
+          num: 6
+          slaveNum: 1
+        - id: "FF0002000008"
+          slaves: ["CCCCC1000005","CCCCC1000006"]
+          num: 6
+          slaveNum: 1
+        - id: "FF0002000009"
+          slaves: ["CCCCC1000007","CCCCC1000008"]
+          num: 6
+          slaveNum: 1
+        - id: "FF0002000010"
+          slaves: ["CCCCC1000009","CCCCC1000010"]
+          num: 6
+          slaveNum: 1
+
+        #          4.网关:6  从设备:0
+        - id: "010402000011"
+          slaves: []
+          num: 6
+          slaveNum: 0
+        - id: "010402000012"
+          slaves: []
+          num: 6
+          slaveNum: 0
+        - id: "010402000013"
+          slaves: []
+          num: 6
+          slaveNum: 0
+        - id: "010402000014"
+          slaves: []
+          num: 6
+          slaveNum: 0
+        - id: "010402000015"
+          slaves: []
+          num: 6
+          slaveNum: 0

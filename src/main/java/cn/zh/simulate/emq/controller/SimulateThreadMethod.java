@@ -6,9 +6,11 @@ import cn.zh.simulate.emq.entity.DeviceInfo;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +19,14 @@ import java.util.stream.Collectors;
 /**
  * @author ZQ
  */
-@RestController
-public class TestConfigController {
+@Component
+public class SimulateThreadMethod {
     @Autowired
     SimulateYmlConfig config;
     @Autowired
     EmqConfig emqConfig;
 
-    @RequestMapping("/test")
+    @PostConstruct
     public Object testConfig() {
         //配置文件对象类
         List<SimulateYmlConfig.Devices> devices = config.getDevices();

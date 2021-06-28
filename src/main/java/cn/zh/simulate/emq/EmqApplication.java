@@ -8,10 +8,13 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
+import java.util.Objects;
+
 @SpringBootApplication
 public class EmqApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(EmqApplication.class, args);
     }
     @Bean
@@ -19,7 +22,7 @@ public class EmqApplication {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new FileSystemResource("config/simulate.yml"));
-        configurer.setProperties(yaml.getObject());
+        configurer.setProperties(Objects.requireNonNull(yaml.getObject()));
         return configurer;
     }
 }
