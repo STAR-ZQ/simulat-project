@@ -19,8 +19,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,7 +45,7 @@ public class EmqConfig {
     private MqttClient client;
     private MqttConnectOptions options;
     //    private String [] topic = new String[100];
-    private String[] topic = new String[2];
+    private String[] topic;
     /**
      * 发布消息次数
      */
@@ -106,6 +105,14 @@ public class EmqConfig {
     Map<Integer, List<String>> propertyMap = Maps.newHashMap();
 
     ExecutorService service = Executors.newFixedThreadPool(1);
+    ExecutorService threadPool = new ThreadPoolExecutor(
+            30,
+            100,
+            3,
+            TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(3),
+            Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.AbortPolicy());
 
     public void conn(Map<String, List<String>> map, String clientId, DeviceInfo deviceInfo, String type) throws MqttException {
         service.execute(new Runnable() {
@@ -137,11 +144,14 @@ public class EmqConfig {
                 options.setKeepAliveInterval(keepAliveInterval);
                 options.setAutomaticReconnect(true);
                 options.setConnectionTimeout(connectionTimeout);
+
+                List<String> sIds = map.get(clientId);
+                topic = new String[CollectionUtils.isEmpty(sIds) ? 1 : 2];
                 topic[0] = "/" + type + "/" + clientId + "/cmd";
                 options.setWill(topic[0], "offline".getBytes(), qos, true);
                 client.connect(options);
 
-                List<String> sIds = map.get(clientId);
+
                 switchMap = new HashMap<>();
                 //从设备
                 if (!CollectionUtils.isEmpty(sIds)) {
@@ -187,9 +197,9 @@ public class EmqConfig {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String content = new String(message.getPayload());
-                        System.out.println("订阅后的消息回调:接收消息主题 : " + topic);
-                        System.out.println("接收消息Qos : " + message.getQos());
-                        System.out.println("接收消息内容 : " + content);
+//                        System.out.println("订阅后的消息回调:接收消息主题 : " + topic);
+//                        System.out.println("接收消息Qos : " + message.getQos());
+//                        System.out.println("接收消息内容 : " + content);
                         if ("offline".equals(content) || "online".equals(content)) {
 //                            log.error("yizhu=======================");
                             return;
@@ -250,6 +260,7 @@ public class EmqConfig {
                     }
 
                     for (int i = 0; i < size; i++) {
+                        log.info("设备===============================:" + clientId);
                         judgeMethod(new DeviceInfo(deviceInfo.getNum(), deviceInfo.getSlaveInfo().getSNum(), deviceInfo.getSwitchStatus()), deviceInfo, type, i, isAllReport);
                     }
 
@@ -360,9 +371,12 @@ public class EmqConfig {
             switchSb.append("{\"version\":\"2.0.0\",\"data\":[");
             boolean isReport = false;
             switchReqMap = (Map) JSON.parse(object.get("switch").toString());
-            int length = "device".equals(type) ? vo.getNum() : vo.getSlaveInfo().getSNum();
+            int length = "device".equals(type) || topicAttr.length==4? vo.getNum() : vo.getSlaveInfo().getSNum();
+            String types = "device".equals(type) || topicAttr.length==4?"device":"gateway";
+//            int length = topicAttr.length ? vo.getNum() : vo.getSlaveInfo().getSNum();
+            log.error(length+"开关=========="+topic+"======="+type);
             for (int i = 0; i < length; i++) {
-                switch (type) {
+                switch (types) {
                     case "device":
                         if (!vo.getSwitchStatus()[i].equals(switchReqMap.get(i))) {
                             isReport = true;

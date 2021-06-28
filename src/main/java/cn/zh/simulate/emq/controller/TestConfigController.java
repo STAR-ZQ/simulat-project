@@ -61,7 +61,7 @@ public class TestConfigController {
         System.out.println(JSON.toJSONString(ids));
 
         ids.forEach(e -> {
-            emqConfig.reportThread(e);
+//            emqConfig.reportThread(e);
         });
 
         return map;
