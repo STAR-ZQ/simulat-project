@@ -4,47 +4,47 @@ emq:
     #    1开关
     - type: device
       info:
-        - id: "010201000002"
+        #        - id: "010201000002"
+        #          slaves: []
+        #          num: 1
+        #          slaveNum: 0
+        #        - id: "010201000003"
+        #          slaves: []
+        #          num: 1
+        #          slaveNum: 0
+        #        - id: "010201000004"
+        #          slaves: []
+        #          num: 1
+        #          slaveNum: 0
+        #        - id: "010201000005"
+        #          slaves: []
+        #          num: 1
+        #          slaveNum: 0
+        #        - id: "010201000006"
+        #          slaves: []
+        #          num: 1
+        #          slaveNum: 0
+        #                 2开关
+        - id: "FF0001000001"
           slaves: []
-          num: 1
+          num: 2
           slaveNum: 0
-#        - id: "010201000003"
-#          slaves: []
-#          num: 1
-#          slaveNum: 0
-#        - id: "010201000004"
-#          slaves: []
-#          num: 1
-#          slaveNum: 0
-#        - id: "010201000005"
-#          slaves: []
-#          num: 1
-#          slaveNum: 0
-#        - id: "010201000006"
-#          slaves: []
-#          num: 1
-#          slaveNum: 0
-##                 2开关
-#        - id: "FF0001000001"
-#          slaves: []
-#          num: 2
-#          slaveNum: 0
-#        - id: "FF0001000002"
-#          slaves: []
-#          num: 2
-#          slaveNum: 0
-#        - id: "FF0001000003"
-#          slaves: []
-#          num: 2
-#          slaveNum: 0
-#        - id: "FF0001000004"
-#          slaves: []
-#          num: 2
-#          slaveNum: 0
-#        - id: "FF0001000005"
-#          slaves: []
-#          num: 2
-#          slaveNum: 0
+        - id: "FF0001000002"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000003"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000004"
+          slaves: []
+          num: 2
+          slaveNum: 0
+        - id: "FF0001000005"
+          slaves: []
+          num: 2
+          slaveNum: 0
 #
 ##            网关
 #    - type: gateway

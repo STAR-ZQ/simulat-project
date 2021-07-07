@@ -53,14 +53,14 @@ public class RandomNumber {
         if (separates.size() + 1 != percents.size()) {
             throw new IllegalArgumentException("分割数字的个数加1必须等于百分比个数");
         }
-        int totalPercent = 0;
+        double totalPercent = 0;
         for (Double p : percents) {
             if (p < 0 || p > 100) {
                 throw new IllegalArgumentException("百分比必须在[0,100]之间");
             }
             totalPercent += p;
         }
-        if (totalPercent != 100) {
+        if (Math.round(totalPercent) != 100) {
             throw new IllegalArgumentException("百分比之和必须为100");
         }
         for (double s : separates) {
@@ -119,14 +119,14 @@ public class RandomNumber {
         if (separates.size() + 1 != percents.size()) {
             throw new IllegalArgumentException("分割数字的个数加1必须等于百分比个数");
         }
-        int totalPercent = 0;
+        double totalPercent = 0;
         for (Double p : percents) {
             if (p < 0 || p > 100) {
                 throw new IllegalArgumentException("百分比必须在[0,100]之间");
             }
             totalPercent += p;
         }
-        if (totalPercent != 100) {
+        if (Math.round(totalPercent) != 100) {
             throw new IllegalArgumentException("百分比之和必须为100");
         }
         for (double s : separates) {
