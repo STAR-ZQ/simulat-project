@@ -17,6 +17,7 @@ public class EmqApplication {
 
         SpringApplication.run(EmqApplication.class, args);
     }
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();

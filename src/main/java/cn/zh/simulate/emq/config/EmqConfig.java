@@ -371,10 +371,10 @@ public class EmqConfig {
             switchSb.append("{\"version\":\"2.0.0\",\"data\":[");
             boolean isReport = false;
             switchReqMap = (Map) JSON.parse(object.get("switch").toString());
-            int length = "device".equals(type) || topicAttr.length==4? vo.getNum() : vo.getSlaveInfo().getSNum();
-            String types = "device".equals(type) || topicAttr.length==4?"device":"gateway";
+            int length = "device".equals(type) || topicAttr.length == 4 ? vo.getNum() : vo.getSlaveInfo().getSNum();
+            String types = "device".equals(type) || topicAttr.length == 4 ? "device" : "gateway";
 //            int length = topicAttr.length ? vo.getNum() : vo.getSlaveInfo().getSNum();
-            log.error(length+"开关=========="+topic+"======="+type);
+            log.error(length + "开关==========" + topic + "=======" + type);
             for (int i = 0; i < length; i++) {
                 switch (types) {
                     case "device":
